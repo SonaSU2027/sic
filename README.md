@@ -1,3 +1,3 @@
 # sic
-Author - SONA S U
+Author - SONA SU
 this is samsung demo repo
