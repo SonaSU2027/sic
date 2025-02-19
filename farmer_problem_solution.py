@@ -24,3 +24,4 @@ total_sales = sales_tomatoes + sales_potatoes + sales_cabbage + sales_sunflower 
 print(f"Overall sales achieved by Mahesh: Rs. {total_sales}")
 chemical_free_sales = sales_tomatoes + sales_potatoes + sales_cabbage + sales_sunflower
 print(f"Sales realization from chemical-free farming at the end of 11 months: Rs. {chemical_free_sales}")
+print('*' * 50)
