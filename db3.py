@@ -21,7 +21,7 @@ def create_table():
    cursor.execute(query)
    cursor.close()
    print('Table creation successfull!!!')
-   disconnect_db(connection)
+   disconnected_db(connection)
 def read_person_details():
    name = input('Enter person name:')
    gender = input('Enter person gender')[0]
@@ -36,5 +36,5 @@ def insert_row():
     cursor = connection.cursor()
     cursor.execute(query)
     cursor.close()  
-    disconnect_db(connection)
+    disconnected_db(connection)
 insert_row()
