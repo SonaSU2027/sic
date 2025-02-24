@@ -20,7 +20,7 @@ def create_db():
    cursor = connection.cursor()
    cursor.execute(query)
    cursor.close()
-   disconnect_db(connection)
+   disconnected_db(connection)
 
 
 def insert_row():
