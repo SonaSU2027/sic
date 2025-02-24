@@ -1,10 +1,15 @@
 import pymysql
+
 class Person:
-    def __init_-(self):
-    self.name = ""
-    self.gender = ""
-    self.dob = ""
-    self.location = ""
+    def __init__(self, name="", gender="", dob="", location=""):
+        self.name       = name
+        self.gender     = gender
+        self.dob        = dob
+        self.location   = location
+
+    def __str__(self):
+        print(f'Name:{self.name}, Location:{self.location}')
+
 class Db_operations:
     def __init__(self):
         pass
@@ -49,22 +54,21 @@ class Db_operations:
         dob = input('Enter person date of borth(yyyy-mm-dd): ')
         return (name, gender, location, dob)
 
-    def insert_row(self):
-        person = self.read_person_details()
-        print(person)
+    def insert_row(self, person):
+        #person = self.read_person_details()
         query = 'insert into persons(name, gender, location, dob) values(%s, %s, %s, %s);'
+        person_tuple = (person.name, person.gender, person.location, person.dob)
         connection = self.connect_db()
         cursor = connection.cursor()
-        cursor.execute(query, person)
+        cursor.execute(query, person_tuple)
         connection.commit()
         cursor.close()
         self.disconnect_db(connection)
+        id = self.get_latest_row_id()
+        return id
 
-    def update_row(self):
-        new_location = input('Enter new location of the person: ')
-        id = int(input('Enter Id of the person to update the location: '))
-        data = (new_location, id)
-        query = f'update persons set location = %s where id = %s'
+    def update_row(self, data):
+        query = f'update persons set name = %s, gender = %s, location = %s, dob = %s where id = %s'
         connection = self.connect_db()
         cursor = connection.cursor()
         cursor.execute(query, data)
@@ -72,8 +76,8 @@ class Db_operations:
         cursor.close()
         self.disconnect_db(connection)
 
-    def delete_row(self):
-        id = int(input('Enter Id of the person to delete: '))
+    def delete_row(self, id):
+        #id = int(input('Enter Id of the person to delete: '))
         query = f'delete from persons where id = {id}'
         connection = self.connect_db()
         cursor = connection.cursor()
@@ -86,8 +90,9 @@ class Db_operations:
         cursor.close()
         self.disconnect_db(connection)
 
-    def search_row(self):
-        id = int(input('Enter Id of the person to search: '))
+    def search_row(self, id):
+        row = None
+        #id = int(input('Enter Id of the person to search: '))
         query = f'select * from persons where id = {id}'
         connection = self.connect_db()
         cursor = connection.cursor()
@@ -100,19 +105,36 @@ class Db_operations:
         connection.commit()
         cursor.close()
         self.disconnect_db(connection)
+        return row
 
     def list_all_rows(self):
-        query = f'select * from persons;'
+        query = 'select * from persons;'
+        try:
+            connection = self.connect_db()
+            cursor = connection.cursor()
+            count = cursor.execute(query)
+            if count == 0:
+                print(f'No rows found in the table')
+            else:
+                rows = cursor.fetchall()
+                for row in rows:
+                    print(str(row))
+            connection.commit()
+            cursor.close()
+            self.disconnect_db(connection)
+            return rows
+        except:
+            print('Error in reading rows')
+
+    def get_latest_row_id(self):
+        query = 'select max(id) from persons;'
         connection = self.connect_db()
         cursor = connection.cursor()
-        count = cursor.execute(query)
-        if count == 0:
-            print(f'No rows found in the table')
-        else:
-            rows = cursor.fetchall()
-            for row in rows:
-                print(str(row))
-        connection.commit()
+        cursor.execute(query)
+        id = cursor.fetchone()
         cursor.close()
         self.disconnect_db(connection)
+        return id[0]
 
+oprs = Db_operations()
+oprs.get_latest_row_id()
