@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+
 # Analysis 6: Seasonal pattern in cargo transportation
 def seasonal_pattern_in_cargo(df):
     if 'Month' in df.columns and 'Freight TON KM Performed' in df.columns:
@@ -19,7 +20,10 @@ def seasonal_pattern_in_cargo(df):
 def peak_passenger_traffic(df):
     if 'No Carried(P)' in df.columns and 'Month' in df.columns:
         peak_month = df.loc[df['No Carried(P)'].idxmax()]
+        print('*' * 100)
         print(f"Month with Peak Passenger Traffic: {peak_month['Month']}")
+        print('*' * 100)
+
     else:
         print("Error: 'No Carried(P)' or 'Month' column not found. Check dataset.")
 
@@ -40,4 +44,5 @@ def efficiency_of_tonne_kilometers(df):
         print("Error: Either 'Avail TONNE KMS (Millions)', 'Total TON KMS Performed', or 'Month' column not found. Check dataset.")
 
 
-df = pd.read_csv('sic\hackathon\DGCA_DATA.csv')
+
+
