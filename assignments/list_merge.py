@@ -1,102 +1,60 @@
 class Node:
     def __init__(self, data):
         self.data = data
-        self.next = None
+        self.link = None
 
 class LinkedList:
-    def __init__(self):
-        self.head = None
+    def __init__(self, num):
+        self.head = 0  # Number of nodes
+        self.next = None  # Head node pointer
+        print(f'List-{num} is created')
 
-    def append(self, data):
-        new_node = Node(data)
-        if not self.head:
-            self.head = new_node
-            return
-        last_node = self.head
-        while last_node.next:
-            last_node = last_node.next
-        last_node.next = new_node
+    def create_node(self, data):
+        return Node(data)
 
-    def list_merge(self, list1, list2):
-        """
-        Checks if two linked lists merge at a certain node.
+    def add_node_at_front(self, data):
+        new_node = self.create_node(data)
+        new_node.link = self.next
+        self.next = new_node
+        self.head += 1
 
-        Args:
-            list1: The head of the first linked list.
-            list2: The head of the second linked list.
+def create_list(num):
+    linked_list = LinkedList(num)
+    print(f'Creating List-{num}')
+    while True:
+        data = int(input('Enter data of the new node: '))
+        linked_list.add_node_at_front(data)
+        choice = input('Enter 1 to add node, other number to stop: ')
+        if choice != '1':
+            break
+    return linked_list
 
-        Returns:
-            The position where the lists merge (1-based index), or None if they don't merge.
-        """
+def check_if_converges(list1, list2):
+    if list1.next is None or list2.next is None:
+        return "Lists do not converge"
 
-        node1 = list1
-        node2 = list2
-        pos1 = 1
-        pos2 = 1
-        nodes_visited = set()
+    nodes_set = set()
+    temp1 = list1.next
+    temp2 = list2.next
+    
+    while temp1 is not None:
+        nodes_set.add(temp1)
+        temp1 = temp1.link
 
-        while node1:
-            nodes_visited.add(node1)
-            node1 = node1.next
-            
-        node1 = list1
-        while node2:
-            if node2 in nodes_visited:
-                # Find the position within the first list.
-                node1 = list1
-                position = 1
-                while node1 is not node2:
-                    node1 = node1.next
-                    position +=1
-                return position
-            node2 = node2.next
-            
-        return None
+    position = 0
+    while temp2 is not None:
+        if temp2 in nodes_set:
+            return position
+        temp2 = temp2.link
+        position += 1
 
-    def display(self):
-        """Prints the linked list to console"""
-        current = self.head
-        while current:
-            print(current.data, end=" -> ")
-            current = current.next
-        print("None")
+    return "Lists do not converge"
 
-list1 = LinkedList()
-list2 = LinkedList()
-list3 = LinkedList()
+list1 = create_list(1)
+list2 = create_list(2)
+result = check_if_converges(list1, list2)
 
-
-list1.append(1)
-list1.append(2)
-list1.append(3)
-list1.append(4)
-list1.append(5)
-
-list2.append(6)
-list2.append(7)
-
-
-current = list1.head
-while current.data != 4:
-    current = current.next
-merge_point = current
-
-current = list2.head
-while current.next:
-    current = current.next
-
-current.next = merge_point
-
-
-# Check if the lists merge
-merge_position = list3.list_merge(list1.head, list2.head)
-
-if merge_position:
-    print(f"The lists merge at position: {merge_position}")
+if result == "Lists do not converge":
+    print(result)
 else:
-    print("The lists are not merged")
-
-print("List1: ", end="")
-list1.display()
-print("List2: ", end="")
-list2.display()
+    print(f'The lists converge at position-{result}')
