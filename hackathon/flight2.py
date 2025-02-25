@@ -41,6 +41,3 @@ def efficiency_of_tonne_kilometers(df):
 
 
 df = pd.read_csv('sic\hackathon\DGCA_DATA.csv')
-#seasonal_pattern_in_cargo(df)
-#peak_passenger_traffic(df)
-efficiency_of_tonne_kilometers(df)
