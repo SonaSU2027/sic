@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load the dataset
-df = pd.read_csv('sic\hackathon\DGCA_DATA.csv')
+df = pd.read_csv('DGCA_DATA.csv')
 
 # Convert 'Month' to datetime format
 df['Month'] = pd.to_datetime(df['Month'], format='%m/%Y')
@@ -292,7 +292,7 @@ def compare_flight_delays_with_load_factor(df):
     plt.show()
 
 def load_data():
-    df = pd.read_csv('sic\hackathon\DGCA_DATA.csv')
+    df = pd.read_csv('DGCA_DATA.csv')
     df['Month'] = pd.to_datetime(df['Month'], format='%m/%Y')
     df = df.sort_values('Month').dropna()
     return df
